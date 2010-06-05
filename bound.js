@@ -2,6 +2,28 @@
 $.deferred.define();
 
 $.extend({
+    drawCircle: function() {
+      function drawCircleSub() {
+      }
+
+      var canvas = $('canvas')[0];
+      $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
+      var ctx = $('canvas')[0].getContext('2d');
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.beginPath();
+      ctx.moveTo(-1, window.innerHeight / 2);
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      createSignalSub(freq);
+      createSignalSub(freq * (5.0 / 6.0));
+      createSignalSub(freq * (4.0 / 6.0));
+      drawCircleSub(freq);
+      ctx.stroke();
+      return signals;
+
+    },
+
     // see http://github.com/yanagia/jsaudio
     wavUtil: {
         playSaw: function(duration, f, factor) {
@@ -123,11 +145,15 @@ $(function(){
     var lastMouseData = { x: 0, y: 0, z: 0 };
 
     var onData = function(data) {
+        $.drawCircle();
+
+        /*
         var pitch = (-data.y + 1) * 700.0;
         var new_audio = $.wavUtil.playSaw(0.3, pitch, Math.abs(data.x));
         if (audio) audio.remove();
         audio = null;
         audio = new_audio;
+        */
     };
     
     window.addEventListener(
