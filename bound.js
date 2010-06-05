@@ -128,7 +128,6 @@ $(function(){
         if (audio) audio.remove();
         audio = null;
         audio = new_audio;
-        $('h1').css({ top: (data.y * 40 + 50) + '%', left: (data.x * 40 + 50) + '%' });
     };
     
     window.addEventListener(
