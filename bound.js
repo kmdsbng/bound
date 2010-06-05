@@ -4,6 +4,16 @@ $.deferred.define();
 $.extend({
     drawCircle: function() {
       function drawCircleSub() {
+        var pos = [2 / width, 2 / height];
+        var r = 20;
+
+        for (i=0; i < 100; i++) {
+          var nextStep = i + 1;
+          currentPath = [Math.cos(Math.PI * i / 100), Math.sin(Math.PI * i / 100)];
+          nextPath = [Math.cos(Math.PI * nextStep / 100), Math.sin(Math.PI * nextStep / 100)];
+          ctx.moveTo(currentPath[0], currentPath[1]);
+          ctx.lineTo(nextPath[0], nextPath[1]);
+        }
       }
 
       var canvas = $('canvas')[0];
@@ -15,9 +25,6 @@ $.extend({
 
       var width = window.innerWidth;
       var height = window.innerHeight;
-      createSignalSub(freq);
-      createSignalSub(freq * (5.0 / 6.0));
-      createSignalSub(freq * (4.0 / 6.0));
       drawCircleSub(freq);
       ctx.stroke();
       return signals;
