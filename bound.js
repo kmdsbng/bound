@@ -11,7 +11,7 @@ $.extend({
       return ctx;
     }
 
-    function calcPos(center, r, index, total) {
+    function calcCirclePos(center, r, index, total) {
       return [center[0] + r * Math.cos(2 * Math.PI * index / total),
               center[1] + r * Math.sin(2 * Math.PI * index / total)];
     }
@@ -21,8 +21,8 @@ $.extend({
       var total = 100;
       ctx.beginPath();
       for (i=0; i < total; i++) {
-        var currentPath = calcPos(center, r, i, total);
-        var nextPath = calcPos(center, r, i + 1, total);
+        var currentPath = calcCirclePos(center, r, i, total);
+        var nextPath = calcCirclePos(center, r, i + 1, total);
         drawLine(currentPath, nextPath);
       }
       ctx.stroke();
