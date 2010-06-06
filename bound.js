@@ -162,14 +162,6 @@ $(function(){
 
     var onData = function(data) {
         $.updateView(data.x, data.y);
-
-        /*
-        var pitch = (-data.y + 1) * 700.0;
-        var new_audio = $.wavUtil.playSaw(0.3, pitch, Math.abs(data.x));
-        if (audio) audio.remove();
-        audio = null;
-        audio = new_audio;
-        */
     };
     
     window.addEventListener(
@@ -182,7 +174,6 @@ $(function(){
     $('body').bind('mousemove', function(ev) {
         if (!gotAxis) {
             lastMouseData = { x: ev.pageX / window.innerWidth * 2.0 - 1.0, y: ev.pageY / window.innerHeight * 2.0 - 1.0, z: 0 };
-            //onData(lastMouseData);
         }
     });
 
@@ -191,7 +182,6 @@ $(function(){
     });
 
     var mouseTimer = setInterval(function() {
-        //if (gotAxis) clearInterval(mouseTimer);
         onData(lastMouseData);
     }, 100);
 });
