@@ -3,6 +3,15 @@ $.deferred.define();
 
 $.extend({
     updateView: function(posX, posY) {
+
+      function prepareCanvasContext() {
+        var canvas = $('canvas')[0];
+        $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
+        var ctx = $('canvas')[0].getContext('2d');
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        return ctx;
+      }
+
       function calcPos(center, r, index, total) {
         return [center[0] + r * Math.cos(2 * Math.PI * index / total),
                 center[1] + r * Math.sin(2 * Math.PI * index / total)];
@@ -11,6 +20,7 @@ $.extend({
       function drawCircleSub(center) {
         var r = 20;
         var total = 100;
+        ctx.beginPath();
         for (i=0; i < total; i++) {
           var currentPath = calcPos(center, r, i, total);
           var nextPath = calcPos(center, r, i + 1, total);
@@ -28,11 +38,7 @@ $.extend({
         return [width  * (1 + posX) / 2, height * (1 + posY) / 2];
       }
 
-      var canvas = $('canvas')[0];
-      $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
-      var ctx = $('canvas')[0].getContext('2d');
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.beginPath();
+      var ctx = prepareCanvasContext();
       var width = window.innerWidth;
       var height = window.innerHeight;
       center = calcCenter(width, height, posX, posY);
