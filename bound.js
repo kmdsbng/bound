@@ -25,7 +25,7 @@ $.extend({
       }
 
       function calcCenter(width, height, posX, posY) {
-        return [width  * (1 + posX) / 2, height * (1 + posY)];
+        return [width  * (1 + posX) / 2, height * (1 + posY) / 2];
       }
 
       var canvas = $('canvas')[0];
@@ -188,6 +188,6 @@ $(function(){
     var mouseTimer = setInterval(function() {
         //if (gotAxis) clearInterval(mouseTimer);
         onData(lastMouseData);
-    }, 900);
+    }, 100);
 });
 
