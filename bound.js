@@ -31,8 +31,6 @@ $.extend({
       var height = window.innerHeight;
       drawCircleSub();
       ctx.stroke();
-      return signals;
-
     },
 
     // see http://github.com/yanagia/jsaudio
@@ -166,7 +164,7 @@ $(function(){
         audio = new_audio;
         */
     };
-    onData(;
+    onData();
     
         /*
     window.addEventListener(
