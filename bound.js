@@ -3,7 +3,6 @@ $.deferred.define();
 
 $.extend({
   updateView: function(posX, posY) {
-
     function prepareCanvasContext() {
       var canvas = $('canvas')[0];
       $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
