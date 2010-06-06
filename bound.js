@@ -47,6 +47,7 @@ $.extend({
     },
 
     soundPing: function(posX, posY) {
+      var audio = null;
       var pitch = (-posY + 1) * 700.0;
       var new_audio = $.wavUtil.playSaw(0.3, pitch, Math.abs(posX));
       if (audio) audio.remove();
@@ -116,26 +117,24 @@ $.extend({
             header += "data";		       // data chunk label
 
             var sigsize;
-            sigsize = String.fromCharCode((siglen >> 0 & 0xFF),
-				          (siglen >> 8 & 0xFF),
-				          (siglen >> 16 & 0xFF),
-				          (siglen >> 24 & 0xFF));
+            sigsize = this.convertNumberToHexString(siglen);
             header += sigsize;
             return header;
         },
 
         riffPart: function(wavlen) {
             var riff =  "RIFF";
-            riff += String.fromCharCode((wavlen >> 0 & 0xFF),
-			                (wavlen >> 8 & 0xFF),
-			                (wavlen >> 16 & 0xFF),
-			                (wavlen >> 24 & 0xFF));
+            riff += this.convertNumberToHexString(wavlen);
             return riff;
         },
 
-
-        _header: function() {
+        convertNumberToHexString: function(no) {
+          return String.fromCharCode((no >> 0 & 0xFF),
+                                     (no >> 8 & 0xFF),
+                                     (no >> 16 & 0xFF),
+                                     (no >> 24 & 0xFF));
         },
+
         playUrl: function(url){
             var $audio = $('<audio>').attr({ src: url, loop: 'loop' });
             $('body').append($audio);
