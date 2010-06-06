@@ -38,7 +38,6 @@ $.extend({
       return [width  * (1 + posX) / 2, height * (1 + posY) / 2];
     }
 
-
     var ctx = prepareCanvasContext();
     var width = window.innerWidth;
     var height = window.innerHeight;
@@ -80,17 +79,9 @@ $.extend({
       var freq = sinF * 2.0 * Math.PI / hz;
       signals = "";
 
-      var canvas = $('canvas')[0];
-      $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
-      var ctx = $('canvas')[0].getContext('2d');
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.beginPath();
-      ctx.moveTo(-1, window.innerHeight / 2);
-
       var width = window.innerWidth;
       var height = window.innerHeight;
       createSignalSub(freq);
-      ctx.stroke();
       return signals;
     },
 
