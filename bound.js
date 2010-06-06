@@ -8,8 +8,7 @@ $.extend({
                 center[1] + r * Math.sin(2 * Math.PI * index / total)];
       }
 
-      function drawCircleSub() {
-        var center = [width / 2, height / 2];
+      function drawCircleSub(center) {
         var r = 20;
         var total = 100;
 
@@ -19,6 +18,7 @@ $.extend({
           ctx.moveTo(currentPath[0], currentPath[1]);
           ctx.lineTo(nextPath[0], nextPath[1]);
         }
+        ctx.stroke();
       }
 
       var canvas = $('canvas')[0];
@@ -29,7 +29,6 @@ $.extend({
       var width = window.innerWidth;
       var height = window.innerHeight;
       drawCircleSub();
-      ctx.stroke();
     },
 
     // see http://github.com/yanagia/jsaudio
