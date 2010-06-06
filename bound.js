@@ -38,6 +38,7 @@ $.extend({
         return [width  * (1 + posX) / 2, height * (1 + posY) / 2];
       }
 
+
       var ctx = prepareCanvasContext();
       var width = window.innerWidth;
       var height = window.innerHeight;
@@ -45,6 +46,13 @@ $.extend({
       drawCircleSub(center);
     },
 
+    soundPing: function(posX, posY) {
+      var pitch = (-posY + 1) * 700.0;
+      var new_audio = $.wavUtil.playSaw(0.3, pitch, Math.abs(posX));
+      if (audio) audio.remove();
+      audio = null;
+      audio = new_audio;
+    },
 
     // see http://github.com/yanagia/jsaudio
     wavUtil: {
@@ -58,16 +66,6 @@ $.extend({
                   sig = Math.sin(phase) * (1 - factor) + (Math.cos(phase) > 0 ? 1.0 : -1.0) * factor / 2;
                   sig = (sig + 1) / 2 * (255 - (255 * i / t));
                   signals += String.fromCharCode(sig);
-                  phase += freq;
-              };
-            }
-            function drawLine(freq) {
-              for(i = 0; i < t; i++){
-                  sig = Math.sin(phase) * (1 - factor) + (Math.cos(phase) > 0 ? 1.0 : -1.0) * factor / 2;
-                  sig = (sig + 1) / 2 * (255 - (255 * i / t));
-                  if (i < width && i % 5 == 0) {
-                      ctx.lineTo(i, sig / 255 * height);
-                  }
                   phase += freq;
               };
             }
@@ -90,9 +88,6 @@ $.extend({
             var width = window.innerWidth;
             var height = window.innerHeight;
             createSignalSub(freq);
-            createSignalSub(freq * (5.0 / 6.0));
-            createSignalSub(freq * (4.0 / 6.0));
-            drawLine(freq);
             ctx.stroke();
             return signals;
         },
@@ -191,6 +186,11 @@ $(function(){
             //onData(lastMouseData);
         }
     });
+
+    $('body').bind('click', function(ev) {
+        $.soundPing(lastMouseData.x, lastMouseData.y);
+    });
+
     var mouseTimer = setInterval(function() {
         //if (gotAxis) clearInterval(mouseTimer);
         onData(lastMouseData);
