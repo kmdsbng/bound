@@ -26,8 +26,6 @@ $.extend({
       var ctx = $('canvas')[0].getContext('2d');
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       ctx.beginPath();
-      ctx.moveTo(-1, window.innerHeight / 2);
-
       var width = window.innerWidth;
       var height = window.innerHeight;
       drawCircleSub();
