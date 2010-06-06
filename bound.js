@@ -156,7 +156,7 @@ $(function(){
     var onData = function(data) {
         $.updateView(data.x, data.y);
     };
-    
+
     window.addEventListener(
         "MozOrientation",
         function(data) {
