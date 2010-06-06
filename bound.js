@@ -2,7 +2,7 @@
 $.deferred.define();
 
 $.extend({
-    updateView: function() {
+    updateView: function(posX, posY) {
       function calcPos(center, r, index, total) {
         return [center[0] + r * Math.cos(2 * Math.PI * index / total),
                 center[1] + r * Math.sin(2 * Math.PI * index / total)];
@@ -11,14 +11,20 @@ $.extend({
       function drawCircleSub(center) {
         var r = 20;
         var total = 100;
-
         for (i=0; i < total; i++) {
           var currentPath = calcPos(center, r, i, total);
           var nextPath = calcPos(center, r, i + 1, total);
-          ctx.moveTo(currentPath[0], currentPath[1]);
-          ctx.lineTo(nextPath[0], nextPath[1]);
+          drawLine(currentPath, nextPath);
         }
         ctx.stroke();
+      }
+
+      function drawLine(startPos, endPos) {
+        ctx.moveTo(startPos[0], startPos[1]);
+        ctx.lineTo(endPos[0], endPos[1]);
+      }
+
+      function calcCenter(width, height, posX, posY) {
       }
 
       var canvas = $('canvas')[0];
@@ -28,8 +34,10 @@ $.extend({
       ctx.beginPath();
       var width = window.innerWidth;
       var height = window.innerHeight;
+      center = calcCenter(width, height, posX, posY);
       drawCircleSub();
     },
+
 
     // see http://github.com/yanagia/jsaudio
     wavUtil: {
@@ -162,9 +170,7 @@ $(function(){
         audio = new_audio;
         */
     };
-    onData();
     
-        /*
     window.addEventListener(
         "MozOrientation",
         function(data) {
@@ -182,6 +188,5 @@ $(function(){
         //if (gotAxis) clearInterval(mouseTimer);
         onData(lastMouseData);
     }, 900);
-    */
 });
 
