@@ -1,8 +1,16 @@
+ACCELERATION_RATIO = 5;
 
 $.deferred.define();
 
 $.extend({
-  updateView: function(posX, posY) {
+  tick: function(balls, acceleration) {
+    for (var i in balls) {
+      var ball = balls[i];
+      ball.move();
+      ball.changeSpeed(acceleration.x, acceleration.y);
+    }
+  },
+  updateView: function(balls) {
     function prepareCanvasContext() {
       var canvas = $('canvas')[0];
       $(canvas).attr({ width: window.innerWidth, height: window.innerHeight });
@@ -16,13 +24,13 @@ $.extend({
               center[1] + r * Math.sin(2 * Math.PI * index / total)];
     }
 
-    function drawCircleSub(center) {
+    function drawBall(ballPos) {
       var r = 20;
       var total = 100;
       ctx.beginPath();
       for (i=0; i < total; i++) {
-        var currentPath = calcCirclePos(center, r, i, total);
-        var nextPath = calcCirclePos(center, r, i + 1, total);
+        var currentPath = calcCirclePos(ballPos, r, i, total);
+        var nextPath = calcCirclePos(ballPos, r, i + 1, total);
         drawLine(currentPath, nextPath);
       }
       ctx.stroke();
@@ -40,8 +48,11 @@ $.extend({
     var ctx = prepareCanvasContext();
     var width = window.innerWidth;
     var height = window.innerHeight;
-    center = calcCenter(width, height, posX, posY);
-    drawCircleSub(center);
+    //center = calcCenter(width, height, posX, posY);
+    for (i in balls) {
+      var ball = balls[i];
+      drawBall([ball.x, ball.y]);
+    }
   },
 
   soundPing: function(posX, posY) {
@@ -142,7 +153,53 @@ $.extend({
   },
 });
 
+Ball = function(x, y) {
+  this.x = x;
+  this.y = y;
+  this.vx = ACCELERATION_RATIO * Math.random();
+  this.vy = ACCELERATION_RATIO * Math.random();
+  this.crashed = false;
+  return this;
+};
+
+Ball.prototype = {
+  move: function(width, height) {
+    function moveToFactor(quantity, v, min, max) {
+      quantity += v;
+      if (quantity < min) {
+        quantity = 2 * min - quantity;
+        v = -v;
+        crashed = true;
+      } else if (quantity > max) {
+        quantity = 2 * max - quantity;
+        v = -v;
+        crashed = true;
+      }
+      return [quantity, v];
+    }
+
+    var crashed = false;
+    [this.x, this.vx] = moveToFactor(this.x, this.vx, 0, window.innerWidth);
+    [this.y, this.vy] = moveToFactor(this.y, this.vy, 0, window.innerHeight);
+    this.crashed = crashed;
+  },
+
+  changeSpeed: function(ax, ay) {
+    this.vx += ax * ACCELERATION_RATIO;
+    this.vy += ay * ACCELERATION_RATIO;
+  },
+
+};
+
 $(function(){
+    function isCrashed(balls) {
+      for (var i in balls) {
+        if (balls[i].crashed)
+          return true;
+      }
+      return false;
+    }
+
     var canvas = $('canvas');
     if (!canvas) {
         canvas = $('<canvas>');
@@ -152,9 +209,16 @@ $(function(){
     var audio = null;
     var gotAxis = false;
     var lastMouseData = { x: 0, y: 0, z: 0 };
+    var balls = [];
+    balls.push(new Ball(window.innerWidth * Math.random(), window.innerHeight * Math.random()));
 
     var onData = function(data) {
-        $.updateView(data.x, data.y);
+      $.tick(balls, data);
+      $.updateView(balls);
+      if (isCrashed(balls)) {
+        console.log(true);
+        $.soundPing(data.x, data.y);
+      }
     };
 
     window.addEventListener(
@@ -172,12 +236,13 @@ $(function(){
         }
     });
 
-    $('body').bind('click', function(ev) {
+    $('body').bind('mousedown', function(ev) {
+        balls.push(new Ball(ev.pageX, ev.pageY));
         $.soundPing(lastMouseData.x, lastMouseData.y);
     });
 
     var mouseTimer = setInterval(function() {
         onData(lastMouseData);
-    }, 100);
+    }, 50);
 });
 
