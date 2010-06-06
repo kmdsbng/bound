@@ -2,7 +2,7 @@
 $.deferred.define();
 
 $.extend({
-    drawCircle: function() {
+    updateView: function() {
       function calcPos(center, r, index, total) {
         return [center[0] + r * Math.cos(2 * Math.PI * index / total),
                 center[1] + r * Math.sin(2 * Math.PI * index / total)];
@@ -155,7 +155,7 @@ $(function(){
     var lastMouseData = { x: 0, y: 0, z: 0 };
 
     var onData = function(data) {
-        $.drawCircle();
+        $.updateView();
 
         /*
         var pitch = (-data.y + 1) * 700.0;
