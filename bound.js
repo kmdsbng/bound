@@ -13,6 +13,10 @@ $.extend({
           nextPath = [Math.cos(Math.PI * nextStep / 100), Math.sin(Math.PI * nextStep / 100)];
           ctx.moveTo(currentPath[0], currentPath[1]);
           ctx.lineTo(nextPath[0], nextPath[1]);
+          console.log('current');
+          console.log(currentPath);
+          console.log('next');
+          console.log(nextPath);
         }
       }
 
@@ -25,7 +29,7 @@ $.extend({
 
       var width = window.innerWidth;
       var height = window.innerHeight;
-      drawCircleSub(freq);
+      drawCircleSub();
       ctx.stroke();
       return signals;
 
@@ -162,7 +166,9 @@ $(function(){
         audio = new_audio;
         */
     };
+    onData(;
     
+        /*
     window.addEventListener(
         "MozOrientation",
         function(data) {
@@ -180,5 +186,6 @@ $(function(){
         //if (gotAxis) clearInterval(mouseTimer);
         onData(lastMouseData);
     }, 900);
+    */
 });
 
