@@ -121,10 +121,11 @@ $.extend({
     },
 
     convertNumberToHexString: function(no) {
-      return String.fromCharCode((no >> 0 & 0xFF),
-          (no >> 8 & 0xFF),
-          (no >> 16 & 0xFF),
-          (no >> 24 & 0xFF));
+      return String.fromCharCode(
+               (no >> 0 & 0xFF),
+               (no >> 8 & 0xFF),
+               (no >> 16 & 0xFF),
+               (no >> 24 & 0xFF));
     },
 
     playUrl: function(url){
