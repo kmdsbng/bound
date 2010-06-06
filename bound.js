@@ -25,7 +25,7 @@ $.extend({
       }
 
       function calcCenter(width, height, posX, posY) {
-        return [0, 0];
+        return [width  * (1 + posX) / 2, height * (1 + posY)];
       }
 
       var canvas = $('canvas')[0];
@@ -161,7 +161,7 @@ $(function(){
     var lastMouseData = { x: 0, y: 0, z: 0 };
 
     var onData = function(data) {
-        $.updateView();
+        $.updateView(data.x, data.y);
 
         /*
         var pitch = (-data.y + 1) * 700.0;
