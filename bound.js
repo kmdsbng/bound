@@ -166,7 +166,9 @@ $(function(){
 
     $('body').bind('mousemove', function(ev) {
         if (!gotAxis) {
-            lastMouseData = { x: ev.pageX / window.innerWidth * 2.0 - 1.0, y: ev.pageY / window.innerHeight * 2.0 - 1.0, z: 0 };
+            lastMouseData = { x: ev.pageX / window.innerWidth * 2.0 - 1.0,
+                              y: ev.pageY / window.innerHeight * 2.0 - 1.0,
+                              z: 0 };
         }
     });
 
