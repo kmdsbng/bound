@@ -4,19 +4,17 @@ $.deferred.define();
 $.extend({
     drawCircle: function() {
       function drawCircleSub() {
-        var pos = [2 / width, 2 / height];
+        var pos = [width / 2, height / 2];
         var r = 20;
 
         for (i=0; i < 100; i++) {
           var nextStep = i + 1;
-          currentPath = [Math.cos(Math.PI * i / 100), Math.sin(Math.PI * i / 100)];
-          nextPath = [Math.cos(Math.PI * nextStep / 100), Math.sin(Math.PI * nextStep / 100)];
+          currentPath = [pos[0] + r * Math.cos(2 * Math.PI * i / 100), pos[1] + r * Math.sin(2 * Math.PI * i / 100)];
+          nextPath = [pos[0] + r * Math.cos(2 * Math.PI * nextStep / 100), pos[1] + r * Math.sin(2 * Math.PI * nextStep / 100)];
           ctx.moveTo(currentPath[0], currentPath[1]);
           ctx.lineTo(nextPath[0], nextPath[1]);
           console.log('current');
           console.log(currentPath);
-          console.log('next');
-          console.log(nextPath);
         }
       }
 
