@@ -25,6 +25,7 @@ $.extend({
       }
 
       function calcCenter(width, height, posX, posY) {
+        return [0, 0];
       }
 
       var canvas = $('canvas')[0];
@@ -35,7 +36,7 @@ $.extend({
       var width = window.innerWidth;
       var height = window.innerHeight;
       center = calcCenter(width, height, posX, posY);
-      drawCircleSub();
+      drawCircleSub(center);
     },
 
 
