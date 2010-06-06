@@ -133,10 +133,10 @@ $.extend({
       $('body').append($audio);
       $audio.bind('canplay', function(){
           this.play()
-          });
+      });
       $audio.bind('ended', function(){
           $(this).remove()
-          });
+      });
       return $audio;
     }
   },
