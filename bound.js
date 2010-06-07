@@ -1,4 +1,6 @@
-ACCELERATION_RATIO = 5;
+ACCELERATION_RATIO = 7;
+DECAY_RATE = 0.99;
+BOUND_DECAY_RATE = 0.80;
 
 $.deferred.define();
 
@@ -168,11 +170,11 @@ Ball.prototype = {
       quantity += v;
       if (quantity < min) {
         quantity = 2 * min - quantity;
-        v = -v;
+        v = -(v * BOUND_DECAY_RATE);
         crashed = true;
       } else if (quantity > max) {
         quantity = 2 * max - quantity;
-        v = -v;
+        v = -(v * BOUND_DECAY_RATE);
         crashed = true;
       }
       return [quantity, v];
@@ -186,7 +188,9 @@ Ball.prototype = {
 
   changeSpeed: function(ax, ay) {
     this.vx += ax * ACCELERATION_RATIO;
-    this.vy += ay * ACCELERATION_RATIO;
+    this.vx *= DECAY_RATE;
+    this.vy += ay * ACCELERATION_RATIO * DECAY_RATE;
+    this.vy *= DECAY_RATE;
   },
 
 };
@@ -216,7 +220,6 @@ $(function(){
       $.tick(balls, data);
       $.updateView(balls);
       if (isCrashed(balls)) {
-        console.log(true);
         $.soundPing(data.x, data.y);
       }
     };
